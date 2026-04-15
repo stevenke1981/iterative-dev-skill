@@ -5,7 +5,7 @@
 
 set -e
 
-REPO_URL="https://raw.githubusercontent.com/stevenke1981/iterative-dev-skill/main"
+REPO_URL="https://raw.githubusercontent.com/stevenke1981/iterative-dev-skill/master"
 INSTALL_GLOBAL=true
 INSTALL_PROJECT=false
 INSTALL_COPILOT=false

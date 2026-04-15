@@ -15,7 +15,7 @@ if (-not $Global -and -not $Project -and -not $Copilot -and -not $All) {
 }
 if ($All) { $Global = $true; $Project = $true; $Copilot = $true }
 
-$RepoUrl = "https://raw.githubusercontent.com/stevenke1981/iterative-dev-skill/main"
+$RepoUrl = "https://raw.githubusercontent.com/stevenke1981/iterative-dev-skill/master"
 $ClaudeHome = "$env:USERPROFILE\.claude"
 
 function Download-File {

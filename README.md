@@ -22,12 +22,12 @@
 
 **macOS / Linux:**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/stevenke1981/iterative-dev-skill/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/stevenke1981/iterative-dev-skill/master/install.sh | bash
 ```
 
 **Windows PowerShell:**
 ```powershell
-irm https://raw.githubusercontent.com/stevenke1981/iterative-dev-skill/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/stevenke1981/iterative-dev-skill/master/install.ps1 | iex
 ```
 
 ---
