@@ -1,0 +1,12 @@
+{
+  "github.copilot.chat.codeGeneration.instructions": [
+    {
+      "file": "${workspaceFolder}/.github/copilot-instructions.md"
+    }
+  ],
+  "github.copilot.chat.reviewSelection.instructions": [
+    {
+      "text": "Review code with iterative development principles: check version tracking, knowledge graph updates, and diff-only output compliance."
+    }
+  ]
+}
