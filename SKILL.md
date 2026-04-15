@@ -178,6 +178,7 @@ ELIF .claude/rules/common/iterative-dev.md 存在：
 
 | 版本 | 日期 | 內容 |
 |------|------|------|
+| v2.1 | 2026-04-15 | copilot-instructions.md 整合 Autonomous Agent Mode（5步驟交付、命名規範、PUA引擎、Red Lines） |
 | v2.0 | 2026-04-15 | 新增 Step 0 規則檔自動管理、強制讀取核心文件、錯誤自動觸發、.claude/rules/ 模組化結構、自動記憶更新 |
 | v1.1 | 2026-04-14 | 合併 Hook 邏輯、優化輸出格式、新增 diff 範例 |
 | v1.0 | 2026-04-14 | 初始建立 |
