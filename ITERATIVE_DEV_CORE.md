@@ -13,9 +13,9 @@
 
 ```yaml
 project_name: [專案名稱]
-current_version: v1.0
+current_version: v2.2
 iteration_mode: active
-last_updated: 2026-04-15
+last_updated: 2026-04-27
 core_files:
   - plan.md
   - spec.md
@@ -32,6 +32,8 @@ core_files:
 | 功能 | 版本 | 狀態 | 備註 |
 |------|------|------|------|
 | 初始化本文件 | v1.0 | 完成 | |
+| MVP Bootstrap（plan.md 不存在時自動建立骨架） | v2.2 | 完成 | SKILL.md Step 0.5 |
+| Function Doc Generator（每個 function 自動產生 md + 雙向知識圖譜） | v2.2 | 完成 | SKILL.md Step 3.5 |
 
 ## 進行中功能
 
@@ -51,11 +53,13 @@ core_files:
 
 1. `.claude/rules/project/iterative-dev-local.md` ← 最高優先（專案本地覆蓋）
 2. `.claude/rules/common/iterative-dev.md` ← 通用迭代開發規則
-3. `D:\ITERATIVE_DEV_SKILL\ITERATIVE_DEV_RULE.md` ← 技能層規則
-4. `D:\ITERATIVE_DEV_SKILL\SKILL.md` ← 技能執行邏輯
+3. `.claude/rules/common/function-docs.md` ← 函式文件規則（v2.2 新增）
+4. `D:\ITERATIVE_DEV_SKILL\ITERATIVE_DEV_RULE.md` ← 技能層規則
+5. `D:\ITERATIVE_DEV_SKILL\SKILL.md` ← 技能執行邏輯
 
 ## 變更歷史
 
 | 版本 | 日期 | 內容 |
 |------|------|------|
+| v2.2 | 2026-04-27 | 新增 MVP Bootstrap 和 Function Doc Generator；更新規則路由；升版 |
 | v1.0 | 2026-04-15 | 初始建立 |

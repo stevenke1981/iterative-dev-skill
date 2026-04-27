@@ -1,9 +1,9 @@
 ---
-description: 迭代開發模式核心規則 — 差異更新、版本追蹤、知識圖譜同步、核心文件強制讀取、錯誤自動啟用
+description: 迭代開發模式核心規則 — 差異更新、版本追蹤、知識圖譜同步、核心文件強制讀取、錯誤自動啟用、MVP Bootstrap、函式文件自動產生
 paths: ["**/*"]
 ---
 
-# ITERATIVE_DEV_RULE — 迭代開發模式核心規則（v2.0）
+# ITERATIVE_DEV_RULE — 迭代開發模式核心規則（v2.2）
 
 ## 永久鐵律（所有 AI 工具必須 100% 遵守）
 
@@ -22,6 +22,17 @@ paths: ["**/*"]
    `plan.md`, `spec.md`, `blueprint.md`, `knowledge_graph.md`, `readme.md`, `ITERATIVE_DEV_CORE.md`
 8. **錯誤自動啟用** — 用戶貼上錯誤訊息（error log、stack trace、exception、失敗內容）時，
    AI 工具必須立即自動啟用本技能，無需用戶手動提醒或說明。
+<!-- v2.2 新增 START -->
+9. **MVP Bootstrap** — 當 `plan.md` 不存在 AND 用戶要求開發 app/功能時，
+   自動執行 MVP Bootstrap 工作流（見 `references/mvp-bootstrap.md`），
+   建立 `plan.md`、`spec.md`、`docs/functions/_index.md`、`knowledge_graph.md` 骨架後，才繼續實作。
+   若 `plan.md` 已存在，跳過此步驟直接進入迭代模式。
+10. **函式文件自動產生** — 每次實作新 function 或用戶要求文件時，
+    必須使用 `templates/function-doc.md` 在 `docs/functions/<FunctionName>.md` 產生說明檔，
+    同步更新 `docs/functions/_index.md` 索引，
+    並在 `knowledge_graph.md` 新增節點與雙向關係（詳見 `references/function-doc-workflow.md`）。
+    既有文件只差異更新，不整份重寫。
+<!-- v2.2 新增 END -->
 
 ## 規則檔案自動管理
 
@@ -58,6 +69,10 @@ paths: ["**/*"]
 - 用戶貼上既有 `.md` 文件內容或版本號
 - 專案中存在本規則檔案
 - **用戶貼上錯誤訊息**（任何 error/exception/stack trace/失敗訊息）← v2.0 新增
+<!-- v2.2 新增 START -->
+- **`plan.md` 不存在 + 開發 app 請求** → 觸發 MVP Bootstrap（rule #9）
+- **function 實作完成 / 用戶要求函式文件** → 觸發 Function Doc Generator（rule #10）
+<!-- v2.2 新增 END -->
 
 **停用條件**：
 - 用戶明確說「切換成全新開發模式」或「從零開始重寫」
@@ -72,6 +87,7 @@ paths: ["**/*"]
 
 | 版本 | 日期 | 內容 |
 |------|------|------|
+| v2.2 | 2026-04-27 | 新增 rule #9 MVP Bootstrap、rule #10 函式文件自動產生；更新觸發條件 |
 | v2.0 | 2026-04-15 | 新增規則檔自動管理、強制讀取核心文件、錯誤自動啟用、.claude/rules/ 模組化、自動記憶更新 |
 | v1.1 | 2026-04-14 | 精簡重複內容，與 SKILL.md 一致 |
 | v1.0 | 2026-04-14 | 初始建立 |

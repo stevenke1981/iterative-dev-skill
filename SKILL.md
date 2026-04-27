@@ -3,21 +3,24 @@ name: iterative-dev
 description: >-
   迭代開發模式技能。專案處於「持續迭代、中途新增/修改功能」狀態時啟用。
   強制差異更新（禁止整份重寫）、版本追蹤、知識圖譜同步、核心文件強制讀取。
+  plan.md 不存在時自動觸發 MVP Bootstrap 建立 app 骨架。
+  為 app 中每個 function 自動產生 docs/functions/<FunctionName>.md 說明檔並雙向連結知識圖譜。
   TRIGGER when: 用戶提及「迭代」「新增功能」「修改功能」「繼續開發」「更新現有」
-  「差異更新」「延續上次」「不要從零開始」，或貼上現有 .md 文件內容/版本號，
+  「差異更新」「延續上次」「不要從零開始」「函式文件」「function doc」「MVP」「開發app」，
+  或貼上現有 .md 文件內容/版本號，
   或貼上錯誤訊息/執行後的錯誤內容（error log、stack trace、exception）。
   DO NOT TRIGGER when: 用戶明確說「切換成全新開發模式」「從零開始」。
 origin: local
 ---
 
-# ITERATIVE_DEV_SKILL — 迭代開發處理技能（v2.0）
+# ITERATIVE_DEV_SKILL — 迭代開發處理技能（v2.2）
 
 ## 啟用確認格式
 
 每次啟動後，回應開頭必須輸出：
 
 ```
-【迭代開發模式已啟用 - v2.0】
+【迭代開發模式已啟用 - v2.2】
 核心文件讀取狀態：
 - plan.md         → [已讀取 / 不存在]
 - spec.md         → [已讀取 / 不存在]
@@ -68,10 +71,32 @@ ELIF .claude/rules/common/iterative-dev.md 存在：
     ├── common/
     │   ├── iterative-dev.md     ← 迭代開發鐵律
     │   ├── version-tracking.md  ← 版本追蹤規範
-    │   └── memory-sync.md       ← 記憶同步規則
+    │   ├── memory-sync.md       ← 記憶同步規則
+    │   └── function-docs.md     ← 函式文件規則（v2.2 新增）
     └── project/
         └── iterative-dev-local.md ← 專案本地覆蓋
 ```
+
+<!-- v2.2 新增 START -->
+### Step 0.5 — MVP Bootstrap 檢查
+
+**在 Step 1 之前執行此檢查：**
+
+```
+IF plan.md 不存在 AND 用戶請求涉及「開發 app / 建立功能 / 建立專案」：
+  → 執行 MVP Bootstrap 工作流（見 references/mvp-bootstrap.md）
+  → 建立 plan.md、spec.md、docs/functions/_index.md、knowledge_graph.md 骨架
+  → 輸出【MVP Bootstrap Complete】確認訊息
+  → 繼續執行 Step 1（此時 plan.md 已存在）
+
+ELSE：
+  → 跳過，直接執行 Step 1
+```
+
+**重要**：MVP Bootstrap 只在 `plan.md` **真正不存在**時觸發。若已存在（哪怕是骨架），直接進入迭代模式。
+
+詳細步驟請見：[references/mvp-bootstrap.md](./references/mvp-bootstrap.md)
+<!-- v2.2 新增 END -->
 
 ### Step 1 — 現狀確認（強制讀取核心文件）
 
@@ -97,6 +122,36 @@ ELIF .claude/rules/common/iterative-dev.md 存在：
 - 使用 `diff` 格式或明確標註「新增部分」「修改部分」「刪除部分」。
 - 若需要程式碼，優先提供 patch 而非完整檔案。
 - 多個檔案時，依影響範圍排序輸出。
+
+<!-- v2.2 新增 START -->
+### Step 3.5 — Function Doc 自動產生
+
+**每次實作新 function 後（或用戶明確要求），執行：**
+
+```
+FOR EACH new/modified function in this iteration:
+  1. 確認 docs/functions/<FunctionName>.md 是否存在
+     → 不存在：從 templates/function-doc.md 建立新檔
+     → 已存在：差異更新（只改有變化的區塊）
+  2. 更新 docs/functions/_index.md（新增或修改對應行）
+  3. 更新 knowledge_graph.md（新增節點 + 雙向關係）
+  4. 輸出【Function Doc Generated】確認訊息
+```
+
+**雙向知識圖譜關係（最小必要）：**
+```
+{FunctionName} → has_doc → docs/functions/{FunctionName}.md
+{ParentModule} → has_function → {FunctionName}
+{FunctionName} → belongs_to → {ParentModule}
+```
+
+**觸發條件：**
+- 本次迭代新增或修改了 function
+- 用戶說「為這個函式產生文件」「function doc」「說明這個函式」
+
+詳細步驟請見：[references/function-doc-workflow.md](./references/function-doc-workflow.md)  
+模板位置：[templates/function-doc.md](./templates/function-doc.md)
+<!-- v2.2 新增 END -->
 
 ### Step 4 — 知識圖譜更新
 
@@ -170,6 +225,10 @@ ELIF .claude/rules/common/iterative-dev.md 存在：
 - 專案目錄中存在本技能檔案
 - 用戶說「像上次一樣」「這是延續上次」
 - **用戶貼上錯誤訊息**（error、exception、stack trace、traceback、failed、FAILED、Error:、錯誤：、失敗）
+<!-- v2.2 新增 START -->
+- **`plan.md` 不存在 + 開發 app/功能請求** → 觸發 Step 0.5 MVP Bootstrap
+- **function 實作完成 / 用戶要求函式文件**（「函式文件」「function doc」「說明函式」）→ 觸發 Step 3.5
+<!-- v2.2 新增 END -->
 
 **停用條件**（明確聲明才停用）：
 - 用戶說「切換成全新開發模式」或「從零開始重寫」
@@ -178,6 +237,7 @@ ELIF .claude/rules/common/iterative-dev.md 存在：
 
 | 版本 | 日期 | 內容 |
 |------|------|------|
+| v2.2 | 2026-04-27 | 新增 Step 0.5 MVP Bootstrap（plan.md 不存在時自動建立骨架）、Step 3.5 Function Doc Generator（每個 function 自動產生 md + 雙向知識圖譜）、新增 references/mvp-bootstrap.md、references/function-doc-workflow.md、templates/function-doc.md、rules/common/function-docs.md |
 | v2.1 | 2026-04-15 | copilot-instructions.md 整合 Autonomous Agent Mode（5步驟交付、命名規範、PUA引擎、Red Lines） |
 | v2.0 | 2026-04-15 | 新增 Step 0 規則檔自動管理、強制讀取核心文件、錯誤自動觸發、.claude/rules/ 模組化結構、自動記憶更新 |
 | v1.1 | 2026-04-14 | 合併 Hook 邏輯、優化輸出格式、新增 diff 範例 |

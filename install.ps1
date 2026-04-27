@@ -27,7 +27,7 @@ function Download-File {
 
 Write-Host ""
 Write-Host "╔══════════════════════════════════════════╗"
-Write-Host "║  iterative-dev-skill installer v2.0      ║"
+Write-Host "║  iterative-dev-skill installer v2.2      ║"
 Write-Host "╚══════════════════════════════════════════╝"
 
 # ── Global: Claude Code CLI ──────────────────────────────────────────────────
@@ -45,7 +45,18 @@ if ($Global) {
   Download-File "$RepoUrl/rules/common/iterative-dev.md"      "$rulesDir\iterative-dev.md"
   Download-File "$RepoUrl/rules/common/version-tracking.md"   "$rulesDir\version-tracking.md"
   Download-File "$RepoUrl/rules/common/memory-sync.md"        "$rulesDir\memory-sync.md"
+  # v2.2 新增
+  Download-File "$RepoUrl/rules/common/function-docs.md"      "$rulesDir\function-docs.md"
   Write-Host "  OK Rule files  -> $rulesDir"
+
+  # v2.2 新增：references 和 templates
+  $refsDir      = "$skillDir\references"
+  $templatesDir = "$skillDir\templates"
+  Download-File "$RepoUrl/references/mvp-bootstrap.md"           "$refsDir\mvp-bootstrap.md"
+  Download-File "$RepoUrl/references/function-doc-workflow.md"   "$refsDir\function-doc-workflow.md"
+  Download-File "$RepoUrl/templates/function-doc.md"             "$templatesDir\function-doc.md"
+  Write-Host "  OK References  -> $refsDir"
+  Write-Host "  OK Templates   -> $templatesDir"
 }
 
 # ── Project: .claude\ in current directory ───────────────────────────────────
@@ -61,9 +72,18 @@ if ($Project) {
   Download-File "$RepoUrl/rules/common/iterative-dev.md"    ".claude\rules\common\iterative-dev.md"
   Download-File "$RepoUrl/rules/common/version-tracking.md" ".claude\rules\common\version-tracking.md"
   Download-File "$RepoUrl/rules/common/memory-sync.md"      ".claude\rules\common\memory-sync.md"
+  # v2.2 新增
+  Download-File "$RepoUrl/rules/common/function-docs.md"    ".claude\rules\common\function-docs.md"
   Download-File "$RepoUrl/ITERATIVE_DEV_CORE.md"            "ITERATIVE_DEV_CORE.md"
   Write-Host "  OK Project rules -> .claude\rules\common\"
   Write-Host "  OK ITERATIVE_DEV_CORE.md -> project root"
+
+  # v2.2 新增：references 和 templates（project level）
+  Download-File "$RepoUrl/references/mvp-bootstrap.md"         ".claude\references\mvp-bootstrap.md"
+  Download-File "$RepoUrl/references/function-doc-workflow.md" ".claude\references\function-doc-workflow.md"
+  Download-File "$RepoUrl/templates/function-doc.md"           ".claude\templates\function-doc.md"
+  Write-Host "  OK References -> .claude\references\"
+  Write-Host "  OK Templates  -> .claude\templates\"
 
   $claudeMd = ".claude\CLAUDE.md"
   $marker   = "ITERATIVE_DEV_RULE v2.0"

@@ -21,7 +21,7 @@ for arg in "$@"; do
 done
 
 echo "╔══════════════════════════════════════════╗"
-echo "║  iterative-dev-skill installer v2.0      ║"
+echo "║  iterative-dev-skill installer v2.2      ║"
 echo "╚══════════════════════════════════════════╝"
 
 # ── Global: Claude Code CLI ──────────────────────────────────────────────────
@@ -40,7 +40,18 @@ if [ "$INSTALL_GLOBAL" = true ]; then
   curl -fsSL "$REPO_URL/rules/common/iterative-dev.md" -o "$HOME/.claude/rules/common/iterative-dev.md"
   curl -fsSL "$REPO_URL/rules/common/version-tracking.md" -o "$HOME/.claude/rules/common/version-tracking.md"
   curl -fsSL "$REPO_URL/rules/common/memory-sync.md" -o "$HOME/.claude/rules/common/memory-sync.md"
+  # v2.2 新增
+  curl -fsSL "$REPO_URL/rules/common/function-docs.md" -o "$HOME/.claude/rules/common/function-docs.md"
   echo "  ✓ Rule files → ~/.claude/rules/common/"
+
+  # v2.2 新增：references 和 templates
+  mkdir -p "$HOME/.claude/skills/iterative-dev/references"
+  mkdir -p "$HOME/.claude/skills/iterative-dev/templates"
+  curl -fsSL "$REPO_URL/references/mvp-bootstrap.md" -o "$HOME/.claude/skills/iterative-dev/references/mvp-bootstrap.md"
+  curl -fsSL "$REPO_URL/references/function-doc-workflow.md" -o "$HOME/.claude/skills/iterative-dev/references/function-doc-workflow.md"
+  curl -fsSL "$REPO_URL/templates/function-doc.md" -o "$HOME/.claude/skills/iterative-dev/templates/function-doc.md"
+  echo "  ✓ References → ~/.claude/skills/iterative-dev/references/"
+  echo "  ✓ Templates  → ~/.claude/skills/iterative-dev/templates/"
 fi
 
 # ── Project: .claude/ in current directory ───────────────────────────────────
@@ -53,9 +64,19 @@ if [ "$INSTALL_PROJECT" = true ]; then
   curl -fsSL "$REPO_URL/rules/common/iterative-dev.md" -o ".claude/rules/common/iterative-dev.md"
   curl -fsSL "$REPO_URL/rules/common/version-tracking.md" -o ".claude/rules/common/version-tracking.md"
   curl -fsSL "$REPO_URL/rules/common/memory-sync.md" -o ".claude/rules/common/memory-sync.md"
+  # v2.2 新增
+  curl -fsSL "$REPO_URL/rules/common/function-docs.md" -o ".claude/rules/common/function-docs.md"
   curl -fsSL "$REPO_URL/ITERATIVE_DEV_CORE.md" -o "ITERATIVE_DEV_CORE.md"
   echo "  ✓ Project rules → .claude/rules/common/"
   echo "  ✓ ITERATIVE_DEV_CORE.md → project root"
+
+  # v2.2 新增：references 和 templates（project level）
+  mkdir -p ".claude/references" ".claude/templates"
+  curl -fsSL "$REPO_URL/references/mvp-bootstrap.md" -o ".claude/references/mvp-bootstrap.md"
+  curl -fsSL "$REPO_URL/references/function-doc-workflow.md" -o ".claude/references/function-doc-workflow.md"
+  curl -fsSL "$REPO_URL/templates/function-doc.md" -o ".claude/templates/function-doc.md"
+  echo "  ✓ References → .claude/references/"
+  echo "  ✓ Templates  → .claude/templates/"
 
   # Append to CLAUDE.md if exists, or create it
   CLAUDE_MD=".claude/CLAUDE.md"

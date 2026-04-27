@@ -182,13 +182,17 @@ iterative-dev-skill/
 ├── copilot-instructions.md           ← VS Code Copilot 指令（直接複製使用）
 ├── install.sh                        ← macOS/Linux 一鍵安裝
 ├── install.ps1                       ← Windows PowerShell 一鍵安裝
-├── rules/
-│   └── common/
-│       ├── iterative-dev.md          ← 迭代開發鐵律
-│       ├── version-tracking.md       ← 版本追蹤規範
-│       └── memory-sync.md            ← 自動記憶同步規則
-└── .vscode/
-    └── settings.json.example         ← VS Code 設定範例
+├── templates/
+│   └── function-doc.md               ← 每個 function 的 md 模板（v2.2 新增）
+├── references/
+│   ├── mvp-bootstrap.md              ← MVP Bootstrap 工作流（v2.2 新增）
+│   └── function-doc-workflow.md      ← 函式文件產生工作流（v2.2 新增）
+└── rules/
+    └── common/
+        ├── iterative-dev.md          ← 迭代開發鐵律
+        ├── version-tracking.md       ← 版本追蹤規範
+        ├── memory-sync.md            ← 自動記憶同步規則
+        └── function-docs.md          ← 函式文件規則（v2.2 新增）
 ```
 
 ---
@@ -217,6 +221,42 @@ iterative-dev-skill/
 ### 5. 自動記憶更新
 迭代完成後自動寫入記憶系統（Claude Code），供未來對話使用。
 
+<!-- v2.2 新增 START -->
+### 6. MVP Bootstrap（v2.2 新增）
+當 `plan.md` **不存在**且用戶要求開發 app 時，自動建立最小可行性骨架：
+- `plan.md`（MVP 計畫）
+- `spec.md`（技術規格骨架）
+- `docs/functions/_index.md`（函式索引）
+- `knowledge_graph.md`（知識圖譜）
+
+```
+【MVP Bootstrap Complete】
+Files created:
+- plan.md → MVP plan skeleton
+- spec.md → Technical spec skeleton
+- docs/functions/_index.md → Function registry (empty)
+- knowledge_graph.md → Knowledge graph (initialized)
+```
+
+### 7. Function Doc Generator（v2.2 新增）
+為 app 中每個 function 自動產生獨立說明檔，儲存在 `docs/functions/`，並雙向連結 `knowledge_graph.md`：
+
+```
+docs/functions/
+├── _index.md              ← 所有函式索引（自動維護）
+└── <FunctionName>.md      ← 每個函式的獨立說明
+```
+
+每份 function doc 包含：Signature、Parameters、Returns、Examples、Knowledge Graph 雙向連結、Changelog。
+
+```
+【Function Docs Generated】
+- docs/functions/myFunction.md → 新建
+- docs/functions/_index.md → 更新 (+1 筆)
+- knowledge_graph.md → 新增節點 N05，新增 3 條關係
+```
+<!-- v2.2 新增 END -->
+
 ---
 
 ## 觸發關鍵詞
@@ -235,6 +275,7 @@ iterative-dev-skill/
 
 | 版本 | 日期 | 內容 |
 |------|------|------|
+| v2.2 | 2026-04-27 | 新增 MVP Bootstrap（plan.md 不存在時自動建立骨架）、Function Doc Generator（每個 function 自動產生 md + 雙向知識圖譜）；新增 templates/function-doc.md、references/mvp-bootstrap.md、references/function-doc-workflow.md、rules/common/function-docs.md |
 | v2.0 | 2026-04-15 | 規則檔自動管理、強制讀取核心文件、錯誤自動啟用、模組化規則、自動記憶更新 |
 | v1.1 | 2026-04-14 | 合併 Hook 邏輯、優化輸出格式 |
 | v1.0 | 2026-04-14 | 初始建立 |
